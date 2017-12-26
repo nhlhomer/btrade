@@ -1,6 +1,6 @@
 # GDAX testing
 
-import json, hmac, hashlib, time, requests, base64
+import os, json, hmac, hashlib, time, requests, base64
 from requests.auth import AuthBase
 
 # Create custom authentication for Exchange
@@ -26,8 +26,11 @@ class CoinbaseExchangeAuth(AuthBase):
         })
         return request
 
+with open("/Users/Minnie/Marc-Code/marc-git/secrets.json") as f:
+    secrets = json.loads(f.read())
+
 api_url = 'https://api.gdax.com/'
-auth = CoinbaseExchangeAuth(API_KEY, API_SECRET, API_PASS)
+auth = CoinbaseExchangeAuth(secrets[GDAX_API_KEY], secrets[GDAX_SECRET], secrets[GDAX_PASSPHRASE])
 
 # Get accounts
 r = requests.get(api_url + 'accounts', auth=auth)
